@@ -8,4 +8,4 @@
     - Edit > Project Settings > Services
     - Select org and create project ID or use an existing project ID
     - Select "no" to targeting children and save
-    - Don't forget to save
+    - Don't forget to save (Ubuntu specific)
