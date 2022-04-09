@@ -2,7 +2,7 @@ using MTL.Core.Singletons;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerManager : Singleton<PlayerManager>
+public class PlayerManager : NetworkSingleton<PlayerManager>
 {
     private NetworkVariable<int> playersInGame = new NetworkVariable<int>();
 

@@ -1,8 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 
 namespace MTL.Core.Singletons
 {
-    public class Singleton<T> : MonoBehaviour
+    public class NetworkSingleton<T> : NetworkBehaviour
         where T : Component
     {
         private static T _instance;

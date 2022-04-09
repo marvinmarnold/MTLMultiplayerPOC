@@ -15,6 +15,9 @@ public class UIManager : MonoBehaviour
     private Button startClientButton;
 
     [SerializeField]
+    private TMP_InputField joinCodeInput;
+
+    [SerializeField]
     private TextMeshProUGUI playersInGameText;
 
     private void Awake()
@@ -29,8 +32,13 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        startHostButton.onClick.AddListener(() =>
+        startHostButton.onClick.AddListener(async () =>
         {
+            if (RelayManager.Instance.IsRelayEnabled)
+            {
+                Debug.Log("Host SETTING UP RELAY...");
+                await RelayManager.Instance.SetupRelay();
+            }
             if(NetworkManager.Singleton.StartHost())
             {
                 Debug.Log("Host started...");
@@ -41,21 +49,27 @@ public class UIManager : MonoBehaviour
             }
         });
 
-        startServerButton.onClick.AddListener(() =>
-        {
-            if(NetworkManager.Singleton.StartServer())
-            {
-                Debug.Log("Server started...");
-            }
-            else
-            {
-                Debug.Log("Server failed to start...");
+        // startServerButton.onClick.AddListener(() =>
+        // {
+        //     if(NetworkManager.Singleton.StartServer())
+        //     {
+        //         Debug.Log("Server started...");
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("Server failed to start...");
 
-            }
-        });
+        //     }
+        // });
 
-        startClientButton.onClick.AddListener(() =>
+        startClientButton.onClick.AddListener(async () =>
         {
+            if (RelayManager.Instance.IsRelayEnabled && !string.IsNullOrEmpty(joinCodeInput.text))
+            {
+                Debug.Log("Client connecting via relay...");
+                await RelayManager.Instance.JoinRelay(joinCodeInput.text);
+            }
+
             if(NetworkManager.Singleton.StartClient())
             {
                 Debug.Log("Client started...");
